@@ -21,8 +21,11 @@ class CrawlingRecordViewSet(viewsets.ModelViewSet):
         Website.objects.get_or_create(url=website)
         crawler = data['created_by']
         hostname = crawler.split('-')[0]
-        Crawler.objects.get_or_create(name=crawler, hostname=hostname,
-                                      is_active=True)
+        c, created = Crawler.objects.get_or_create(name=crawler)
+        if created:
+            c.hostname = hostname
+        c.is_active = True
+        c.save()
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -47,7 +50,6 @@ def index(request):
 
 
 def detail(request, name):
-
     crawler = get_object_or_404(Crawler, name=name)
     context = {
         'crawler': crawler
