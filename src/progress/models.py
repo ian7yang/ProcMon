@@ -1,5 +1,5 @@
 from django.db import models
-from src.inventory.models import Website, Crawler
+from inventory.models import Website, Crawler
 
 
 class CrawlingRecord(models.Model):

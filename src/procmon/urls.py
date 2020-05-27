@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from src.progress import views as progress_views
+from progress import views as progress_views
 
 router = routers.DefaultRouter()
 router.register('progress', progress_views.CrawlingRecordViewSet)

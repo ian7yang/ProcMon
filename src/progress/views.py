@@ -1,6 +1,6 @@
 from .serializers import CrawlingRecordSerializer
 from .models import CrawlingRecord
-from src.inventory.models import Website, Crawler
+from inventory.models import Website, Crawler
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
