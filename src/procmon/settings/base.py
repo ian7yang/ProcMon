@@ -25,7 +25,7 @@ SECRET_KEY = ')oj&tv3g13n#ge=@z8s2td!pp6y5#=2j0&%6)_ti@rbl8su)gn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['iisp-dsk-2.gtisc.gatech.edu', 'localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
