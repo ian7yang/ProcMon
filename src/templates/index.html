@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block body %}
+
+    <header class="header">
+        <h2>Crawler ProcMon Dashboard</h2>
+    </header>
+    <div class="row">
+        {% for crawler in crawlers %}
+
+            <div class="col-4">
+                <div class="card" style="margin-top: 2em">
+                    <div class="card-header {{ crawler.get_current_info.status }}"></div>
+                    <div class="card-body">
+                        <h5 class="card-title"><a
+                                href="/crawler/{{ crawler.name }}">{{ crawler.name }}</a>
+                            / {{ crawler.get_current_info.status }}</h5>
+                        <p class="card-text">
+                            URL: {{ crawler.get_current_info.url }}</p>
+
+                        <p class="card-text"><small class="text-muted">Started
+                            at: {{ crawler.get_current_info.started_at }}</small>
+                        </p>
+                        <hr class="my-4">
+                        <div>
+
+                            {% for info in crawler.get_stat_info %}
+                                <small class="text-muted">
+                                    Loaded: {{ info.loaded }} /
+                                    Successful: {{ info.successful }} /
+                                    Completed: {{ info.completed }}
+                                </small>
+                                {% empty %}
+                                <small class="text-muted">
+                                    Loaded: 0 /
+                                    Successful: 0 /
+                                    Completed: 0
+                                </small>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% if crawler.get_current_info.msg %}
+                        <div class="alert alert-warning" role="alert">
+                            {{ crawler.get_current_info.msg }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
