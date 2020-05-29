@@ -6,7 +6,7 @@ class CrawlingRecord(models.Model):
     website = models.ForeignKey(Website, related_name='website',
                                 on_delete=models.SET_NULL, null=True)
     user = models.CharField(max_length=50)
-    file_path = models.CharField(max_length=100, null=True)
+    file_path = models.CharField(max_length=500, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(Crawler, related_name='crawler',
                                    on_delete=models.SET_NULL, null=True)
