@@ -1,0 +1,12 @@
+{
+  "development": {
+    "token": "67dff96814a2918b0dbd067ab41b4d0ea391747e",
+    "host": "http://localhost:8000",
+    "progressAPI": "/api/progress/"
+  },
+  "production": {
+    "token": "67dff96814a2918b0dbd067ab41b4d0ea391747e",
+    "host": "http://localhost:8000",
+    "progressAPI": "/api/progress/"
+  }
+}

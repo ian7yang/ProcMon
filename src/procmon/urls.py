@@ -18,9 +18,12 @@ from django.urls import path, include
 
 from rest_framework import routers
 from progress import views as progress_views
+from inventory import views as inventory_views
 
 router = routers.DefaultRouter()
 router.register('progress', progress_views.CrawlingRecordViewSet)
+router.register('crawler', inventory_views.CrawlerViewSet)
+router.register('websites', inventory_views.WebsiteViewSet)
 
 urlpatterns = [
     path('', progress_views.index),

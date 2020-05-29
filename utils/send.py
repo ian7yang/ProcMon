@@ -4,13 +4,11 @@ import json
 import datetime
 
 DEBUG = True
-# NOTE: replace the token with a valid one
-TOKEN = '67dff96814a2918b0dbd067ab41b4d0ea391747e'
-HOST = 'http://localhost:8000' if DEBUG else ''
-API = '/api/progress/'
-ENDPOINT = HOST + API
+configs = json.loads(open('./config.json').read())
 
-headers = {'Authorization': f'Token {TOKEN}'}
+config = configs['development'] if DEBUG else configs['production']
+
+headers = {'Authorization': f"Token {config['token']}"}
 
 
 @click.command()
@@ -20,12 +18,13 @@ headers = {'Authorization': f'Token {TOKEN}'}
 @click.option('--user', required=True, type=str,
               help='current user, e.g. user-1')
 def start(url, crawler, user):
+    endpoint = config['host'] + config['progressAPI']
     data = {
         "user": user,
         "website": url,
         "created_by": crawler
     }
-    r = requests.post(ENDPOINT, json=data, headers=headers)
+    r = requests.post(endpoint, json=data, headers=headers)
     if r.status_code == 201:
         ret = json.loads(r.text)
         # return the id of created record
@@ -42,18 +41,20 @@ def start(url, crawler, user):
 @click.option('--is-complete', type=bool, help='e.g. 1 or 0')
 @click.option('--file-path', type=str, help='e.g. /path/to/file')
 def end(pk, is_successful, is_complete, file_path):
+    endpoint = config['host'] + config['progressAPI']
     data = {
         "is_successful": is_successful,
         "is_complete": is_complete,
         "file_path": file_path,
         "complete_at": datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
     }
-    r = requests.put(f'{ENDPOINT}{pk}/', json=data, headers=headers)
+    r = requests.patch(f'{endpoint}{pk}/', json=data, headers=headers)
     if r.status_code == 200:
         ret = json.loads(r.text)
         # return the id of created record
         print(ret['id'])
     else:
+        print(r.content)
         print(-1)
 
 

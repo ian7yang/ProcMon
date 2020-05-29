@@ -1,11 +1,5 @@
-from .models import Crawler, CrawlingRecord
+from .models import CrawlingRecord
 from rest_framework import serializers
-
-
-class CrawlerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Crawler
-        fields = '__all__'
 
 
 class CrawlingRecordSerializer(serializers.ModelSerializer):
