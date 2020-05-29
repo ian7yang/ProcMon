@@ -31,8 +31,11 @@
 </head>
 <body>
 <div class="container-xl">
+{% load tz %}
+{% timezone "America/New_York" %}
 {% block body %}
 {% endblock %}
+{% endtimezone %}
 </div>
 </body>
 </html>

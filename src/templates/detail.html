@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load tz %}
 {% block body %}
     <header class="header">
         <h2>History of Crawler {{ crawler.name }}</h2>
@@ -22,8 +21,8 @@
             <tr>
                 <td>{{ record.website }}</td>
                 <td>{{ record.user }}</td>
-                <td>{{ record.created_at|localtime }}</td>
-                <td>{{ record.complete_at|localtime }}</td>
+                <td>{{ record.created_at }}</td>
+                <td>{{ record.complete_at}}</td>
                 <td>{% if record.is_successful %}
                     <i class="fas fa-check"></i> {% else %}
                     <i class="fas fa-times"></i> {% endif %}</td>

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load tz %}
 {% block body %}
 
     <header class="header">
@@ -19,7 +18,7 @@
                             URL: {{ crawler.get_current_info.url }}</p>
 
                         <p class="card-text"><small class="text-muted">Started
-                            at: {{ crawler.get_current_info.started_at|localtime }}</small>
+                            at: {{ crawler.get_current_info.started_at}}</small>
                         </p>
                         <hr class="my-4">
                         <div>
