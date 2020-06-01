@@ -41,10 +41,15 @@ def index(request):
         completed=Sum('is_complete', output_field=IntegerField()),
         successful=Sum('is_successful', output_field=IntegerField()),
         loaded=Sum('is_loaded', output_field=IntegerField()))
+    overall_stat = CrawlingRecord.objects.values('is_complete').annotate(
+        completed=Sum('is_complete', output_field=IntegerField()),
+        successful=Sum('is_successful', output_field=IntegerField()),
+        loaded=Sum('is_loaded', output_field=IntegerField()))
 
     context = {
         'stats': stats,
-        'crawlers': crawlers
+        'crawlers': crawlers,
+        'overall_stat': overall_stat[0],
     }
     return render(request, 'index.html', context=context)
 

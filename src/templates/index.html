@@ -4,6 +4,12 @@
     <header class="header">
         <h2>Crawler ProcMon Dashboard</h2>
     </header>
+    <div class="row"><div class="float-right">
+        Overall -
+        Loaded: {{ overall_stat.loaded }} /
+        Successful: {{ overall_stat.successful }} /
+        Completed: {{ overall_stat.completed }}
+    </div></div>
     <div class="row">
         {% for crawler in crawlers %}
 
