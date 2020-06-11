@@ -18,3 +18,18 @@ class CrawlingRecord(models.Model):
 
     def __str__(self):
         return self.website.url
+
+
+class Dashboard(models.Model):
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=0)
+    created_at = models.DateTimeField()
+    website = models.CharField(max_length=100)
+    loaded = models.IntegerField()
+    successful = models.IntegerField()
+    completed = models.IntegerField()
+    status = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'dashboard'

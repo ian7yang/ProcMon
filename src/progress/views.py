@@ -1,14 +1,22 @@
 from .serializers import CrawlingRecordSerializer
-from .models import CrawlingRecord
+from .models import CrawlingRecord, Dashboard
 from inventory.models import Website, Crawler
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from django.db.models import Sum, IntegerField
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+from django.db import connection
+from django.core.paginator import Paginator
 
-
+def dictfetchall(cursor):
+    "Returns all rows from a cursor as a dict"
+    desc = cursor.description
+    return [
+        dict(zip([col[0] for col in desc], row))
+        for row in cursor.fetchall()
+    ]
 # Create your views here.
 class CrawlingRecordViewSet(viewsets.ModelViewSet):
     queryset = CrawlingRecord.objects.all()
@@ -35,28 +43,31 @@ class CrawlingRecordViewSet(viewsets.ModelViewSet):
 
 
 def index(request):
-    crawlers = Crawler.objects.all().prefetch_related('crawler')
-    stats = CrawlingRecord.objects.values(
-        'created_by').annotate(
-        completed=Sum('is_complete', output_field=IntegerField()),
-        successful=Sum('is_successful', output_field=IntegerField()),
-        loaded=Sum('is_loaded', output_field=IntegerField()))
+    # crawlers = Crawler.objects.all().prefetch_related('crawler')
+    # stats = CrawlingRecord.objects.values(
+    #     'created_by').annotate(
+    #     completed=Sum('is_complete', output_field=IntegerField()),
+    #     successful=Sum('is_successful', output_field=IntegerField()),
+    #     loaded=Sum('is_loaded', output_field=IntegerField()))
+    tiles = Dashboard.objects.all()
     overall_stat = CrawlingRecord.objects.values('is_complete').annotate(
         completed=Sum('is_complete', output_field=IntegerField()),
         successful=Sum('is_successful', output_field=IntegerField()),
         loaded=Sum('is_loaded', output_field=IntegerField()))
-
     context = {
-        'stats': stats,
-        'crawlers': crawlers,
+        'tiles': tiles,
         'overall_stat': overall_stat[0],
     }
     return render(request, 'index.html', context=context)
 
 
 def detail(request, name):
-    crawler = get_object_or_404(Crawler, name=name)
+    # records = get_list_or_404(CrawlingRecord, created_by_id=name)
+    records = CrawlingRecord.objects.filter(created_by_id=name).order_by('-created_at')
+    paginator = Paginator(records, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'crawler': crawler
+        'page_obj': page_obj
     }
     return render(request, 'detail.html', context=context)
