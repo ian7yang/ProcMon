@@ -5,6 +5,8 @@ from django.db.models import Sum, IntegerField
 class Website(models.Model):
     url = models.URLField(primary_key=True)
     is_active = models.BooleanField(default=True)
+    category = models.CharField(max_length=100, null=True, blank=True)
+    is_alexa = models.BooleanField(default=False)
 
     def __str__(self):
         return self.url
