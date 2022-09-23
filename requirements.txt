@@ -3,7 +3,7 @@ Django==3.0.7
 django-filter==2.2.0
 djangorestframework==3.11.0
 mysqlclient==1.4.6
-protobuf==3.12.1
+protobuf==3.18.3
 pytz==2020.1
 six==1.15.0
 sqlparse==0.3.1
